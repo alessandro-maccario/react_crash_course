@@ -1,5 +1,5 @@
-function App() {
-  return <h1>Hello World!</h1>;
-}
+import Post from "./components/Post";
 
-export default App;
+export default function App() {
+  return <Post />;
+}
