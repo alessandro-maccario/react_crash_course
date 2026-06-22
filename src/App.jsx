@@ -1,5 +1,9 @@
-import Post from "./components/Post";
+import PostList from "./components/PostsList";
 
 export default function App() {
-  return <Post />;
+  return (
+    <main>
+      <PostList />
+    </main>
+  );
 }
