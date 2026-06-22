@@ -1,7 +1,10 @@
-const names = ["Argon", "Mars"];
+import classes from "./Post.module.css";
 
-export default function Post() {
-  const chosenName = Math.random() > 0.5 ? names[0] : names[1];
-
-  return <main></main>;
+export default function Post(props) {
+  return (
+    <div className={classes.post}>
+      <p className={classes.author}>{props.author}</p>
+      <p className={classes.text}>{props.body}</p>
+    </div>
+  );
 }
