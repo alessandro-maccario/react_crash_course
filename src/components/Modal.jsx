@@ -4,7 +4,9 @@ export default function Modal(props) {
   return (
     <>
       <div className={classes.backdrop} />
-      <dialog className={classes.modal}>{props.children}</dialog>
+      <dialog open className={classes.modal}>
+        {props.children}
+      </dialog>
     </>
   );
 }
