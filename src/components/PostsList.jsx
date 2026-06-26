@@ -2,6 +2,7 @@ import classes from "./PostsList.module.css";
 import NewPost from "./NewPost";
 import Post from "./Post";
 import { useState } from "react";
+import Modal from "./Modal";
 
 export default function PostList() {
   const [enteredBody, setEnteredBody] = useState("Lorem Ipsum");
@@ -19,10 +20,12 @@ export default function PostList() {
   return (
     // fragment to wrap the siblings together because React wants only one Root element returned
     <>
-      <NewPost
-        onBodyChange={changeBodyHandler}
-        onAuthorChange={changeAuhorHandler}
-      />
+      <Modal>
+        <NewPost
+          onBodyChange={changeBodyHandler}
+          onAuthorChange={changeAuhorHandler}
+        />
+      </Modal>
 
       <ul className={classes.posts}>
         <Post author={enteredAuthor} body={enteredBody} />
