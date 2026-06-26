@@ -5,6 +5,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 
 export default function PostList() {
+  const [isModalVisible, setModalIsVisible] = useState(true);
   const [enteredBody, setEnteredBody] = useState("Lorem Ipsum");
   const [enteredAuthor, setEnteredAuthor] = useState("Max Mustermann");
 
@@ -17,15 +18,25 @@ export default function PostList() {
     setEnteredAuthor(event.target.value);
   }
 
+  function hideModalHandler(event) {
+    setModalIsVisible(false);
+  }
+
   return (
     // fragment to wrap the siblings together because React wants only one Root element returned
+    // The ternary operator will activate isModalVisible true by default and when clicked on the
+    // backdrop (grey area), to false, so that the modal overlay will disappear
     <>
-      <Modal>
-        <NewPost
-          onBodyChange={changeBodyHandler}
-          onAuthorChange={changeAuhorHandler}
-        />
-      </Modal>
+      {isModalVisible ? (
+        <Modal onClose={hideModalHandler}>
+          <NewPost
+            onBodyChange={changeBodyHandler}
+            onAuthorChange={changeAuhorHandler}
+          />
+        </Modal>
+      ) : (
+        false
+      )}
 
       <ul className={classes.posts}>
         <Post author={enteredAuthor} body={enteredBody} />
