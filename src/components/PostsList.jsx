@@ -1,25 +1,14 @@
+import { useState } from "react";
 import classes from "./PostsList.module.css";
 import NewPost from "./NewPost";
 import Post from "./Post";
-import { useState } from "react";
 import Modal from "./Modal";
 
-export default function PostList() {
-  const [isModalVisible, setModalIsVisible] = useState(true);
-  const [enteredBody, setEnteredBody] = useState("Lorem Ipsum");
-  const [enteredAuthor, setEnteredAuthor] = useState("Max Mustermann");
+export default function PostList(props) {
+  const [posts, setPosts] = useState([]);
 
-  // this function gets called whenever there is a change in the textarea
-  function changeBodyHandler(event) {
-    setEnteredBody(event.target.value);
-  }
-
-  function changeAuhorHandler(event) {
-    setEnteredAuthor(event.target.value);
-  }
-
-  function hideModalHandler(event) {
-    setModalIsVisible(false);
+  function addPostHandler(postData) {
+    setPosts((existingPosts) => [postData, ...existingPosts]);
   }
 
   return (
@@ -27,21 +16,27 @@ export default function PostList() {
     // The ternary operator will activate isModalVisible true by default and when clicked on the
     // backdrop (grey area), to false, so that the modal overlay will disappear
     <>
-      {isModalVisible ? (
-        <Modal onClose={hideModalHandler}>
-          <NewPost
-            onBodyChange={changeBodyHandler}
-            onAuthorChange={changeAuhorHandler}
-          />
+      {props.isPosting ? (
+        <Modal onClose={props.onStopPosting}>
+          <NewPost onCancel={props.onStopPosting} onAddPost={addPostHandler} />
         </Modal>
       ) : (
         false
       )}
 
-      <ul className={classes.posts}>
-        <Post author={enteredAuthor} body={enteredBody} />
-        <Post author="Maple" body="React ist verdammt geil!" />
-      </ul>
+      {posts.length > 0 && (
+        <ul className={classes.posts}>
+          {posts.map((post) => (
+            <Post key={post.body} author={post.author} body={post.body} />
+          ))}
+        </ul>
+      )}
+      {posts.length === 0 && (
+        <div style={{ textAlign: "center", color: "white" }}>
+          <h2>There are no posts yet!</h2>
+          <p>Start adding some!</p>
+        </div>
+      )}
     </>
   );
 }
